@@ -1,0 +1,17 @@
+{
+    "name": "iznogood.no/worklog",
+    "authors": [
+        {
+            "name": "Jon Håvard Gundersen",
+            "email": "jhg@xait.no"
+        }
+    ],
+    "require": {
+		"symfony/console": "2.4.*@dev"
+    },
+	"autoload": {
+		"psr-0": {
+			"WorkLog\\": "src/"
+		}
+	}
+}

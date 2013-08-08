@@ -1,0 +1,36 @@
+#!/usr/local/xait/php/bin/php -d display_errors=on
+<?php
+require __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use WorkLog\Command\Delete;
+use WorkLog\Command\Export;
+use WorkLog\Command\Fix;
+use WorkLog\Command\Show;
+use WorkLog\Command\Start;
+use WorkLog\Command\Stop;
+use WorkLog\Command\Summary;
+use WorkLog\Command\Undo;
+use WorkLog\Logger;
+
+$logger = new Logger();
+
+$console = new Application();
+$console->setName('WorkLog');
+$console->setVersion('1.0');
+
+$console->add(new Start($logger));
+$console->add(new Stop($logger));
+$console->add(new Undo($logger));
+$console->add(new Fix($logger));
+$console->add(new Delete($logger));
+$console->add(new Show($logger));
+$console->add(new Summary($logger));
+$console->add(new Export($logger));
+$console->run();
+
+
+
+
+
+
