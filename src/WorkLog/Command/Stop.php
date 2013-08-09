@@ -37,8 +37,7 @@ class Stop extends Command{
 			array_unshift($description, $input_time);
 		}
 
-		$output->writeln('Task stopped at ');
-
 		$this->logger->end($time, implode(" ", $description));
+		$this->logger->summary();
 	}
 }

@@ -23,7 +23,7 @@ class Start extends Command{
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$time = strtotime($input->getArgument('time'));
 
-		$output->writeln('Task started at ');
 		$this->logger->start($time);
+		$this->logger->summary();
 	}
 }
