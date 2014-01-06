@@ -3,6 +3,8 @@ namespace WorkLog;
 
 class Logger {
 
+	const PERCENTAGE_OF_FULL_TIME_POSITION = 0.8;
+
 	protected $collection;
 
 	public function __construct($db = 'iz', $collection = 'worklog'){
@@ -67,7 +69,7 @@ class Logger {
 		$hours = round($seconds_at_work / 3600, 2);
 
 		$now = new \DateTime('tomorrow');
-		$expected_hours = min(5, $now->diff($monday)->format('%d')) * 7.5;
+		$expected_hours = min(5, $now->diff($monday)->format('%d')) * 7.5 * self::PERCENTAGE_OF_FULL_TIME_POSITION;
 
 		echo "Hours at work this week: ", $this->showHours($hours), "\n",
 		"Expected hours at this moment: ", $expected_hours, "\n",
@@ -95,7 +97,7 @@ class Logger {
 		foreach($weeks as $week => $data){
 			$days = min(5, count($data['days']));
 			$seconds = $data['seconds'];
-			$expected_hours = $days * 7.5;
+			$expected_hours = $days * 7.5 * self::PERCENTAGE_OF_FULL_TIME_POSITION;
 			$hours = round($seconds / 3600, 2);
 			$total_diff += $diff = $hours - $expected_hours;
 
