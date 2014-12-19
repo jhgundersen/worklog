@@ -5,25 +5,29 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CompensatoryTime extends Command{
+class Holiday extends Command{
 
 	protected function configure(){
 		$this
-			->setName('compensatory')
-			->setDescription('Register a compensatory day')
+			->setName('holiday')
+			->setDescription('Register a holiday')
 			->addArgument(
 				'time',
 				InputArgument::OPTIONAL,
-				'Day to add as a compensatory day',
+				'Day to add as a holiday',
 				'now'
 			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
-		$time = strtotime($input->getArgument('time'));
+		$time = $input->getArgument('time');
+		$start = new \DateTime($time);
+		$start->modify('08:00');
+		$end = clone $start;
+		$end->modify('+450 min');
 
-		$this->logger->add($time, $time, 'AVSPASERING');
+		$this->logger->add($start->getTimestamp(), $end->getTimestamp(), 'FERIE', true);
 		$this->logger->summary();
 	}
 }

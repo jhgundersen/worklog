@@ -8,7 +8,7 @@ class Logger {
 	protected $collection;
 
 	public function __construct($db = 'iz', $collection = 'worklog'){
-		$mongo = new \Mongo("mongodb://localhost:27017");
+		$mongo = new \MongoClient("mongodb://localhost:27017");
 		$db = $mongo->selectDB($db);
 		$this->collection = $db->selectCollection($collection);
 	}
@@ -19,7 +19,8 @@ class Logger {
 		$this->collection->insert($entry = array(
 			'start' 	=> $mongo_date,
 			'message' 	=> '',
-			'end' 		=> null
+			'end' 		=> null,
+			'holiday'   => false
 		));
 
 		$this->showEntry($this->collection->findOne(array('_id' => $entry['_id'])));
@@ -36,6 +37,21 @@ class Logger {
 
 		$this->showEntry($this->collection->findOne(array('end' => $mongo_date)));
 	}
+
+	public function add($start, $end, $message, $holiday = false){
+		$mongo_start_date = new \MongoDate($start);
+		$mongo_end_date = new \MongoDate($end);
+
+		$this->collection->insert($entry = array(
+			'start' 	=> $mongo_start_date,
+			'message' 	=> $message,
+			'end' 		=> $mongo_end_date,
+			'holiday'   => $holiday
+		));
+
+		$this->showEntry($this->collection->findOne(array('_id' => $entry['_id'])));
+	}
+
 
 	public function show(){
 		foreach($this->collection->find()->sort(array('start' => 1)) as $entry){
@@ -61,7 +77,7 @@ class Logger {
 		$seconds_at_work = 0;
 
 		foreach($this->collection->find(array('start' => array('$gt' => $start))) as $entry){
-			if($entry['end']){
+			if($entry['end'] && !$entry['holiday']){
 				$seconds_at_work += ($entry['end']->sec - $entry['start']->sec);
 			}
 		}
@@ -81,7 +97,7 @@ class Logger {
 		$weeks = array();
 
 		foreach($this->collection->find()->sort(array('start' => 1)) as $entry){
-			if($entry['end']){
+			if($entry['end'] && !$entry['holiday']){
 				$week = strftime("%W", $entry['end']->sec);
 				$day = strftime("%u", $entry['end']->sec);
 

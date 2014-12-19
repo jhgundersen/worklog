@@ -4,6 +4,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 use WorkLog\Command\CompensatoryTime;
+use WorkLog\Command\Holiday;
 use WorkLog\Command\Delete;
 use WorkLog\Command\Export;
 use WorkLog\Command\Fix;
@@ -29,6 +30,7 @@ $console->add(new Show($logger));
 $console->add(new Summary($logger));
 $console->add(new Export($logger));
 $console->add(new CompensatoryTime($logger));
+$console->add(new Holiday($logger));
 $console->run();
 
 
