@@ -23,7 +23,7 @@ class Logger {
 			'holiday'   => false
 		));
 
-		$this->showEntry($this->collection->findOne(array('_id' => $entry['_id'])));
+		$this->showById($entry['_id']);
 	}
 
 	public function end($time, $message){
@@ -49,7 +49,11 @@ class Logger {
 			'holiday'   => $holiday
 		));
 
-		$this->showEntry($this->collection->findOne(array('_id' => $entry['_id'])));
+		$this->showById($entry['_id']);
+	}
+
+	public function showById($id){
+		$this->showEntry($this->collection->findOne(array('_id' => $id)));
 	}
 
 
@@ -138,11 +142,14 @@ class Logger {
 		return ($negative ? '-' : '').abs($hours)."h:".abs($minutes)."m:".abs($seconds) . "s";
 	}
 
-	public function delete(){
-		$this->collection->remove();
+	public function delete($id = null){
+		if($id){
+			$this->collection->remove(array('_id' => $id));
+		}
+		else {
+			$this->collection->remove();
+		}
 	}
-
-
 
 	public function undo(){
 		$entry = $this->collection->find()->limit(1)->sort(array('start' => -1))->getNext();
