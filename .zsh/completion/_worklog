@@ -1,0 +1,3 @@
+#compdef worklog
+
+_arguments "1: :(start stop summary show fix undo export delete compensatory holiday)"
