@@ -124,7 +124,12 @@ class Logger {
 			echo "Work in week ", $week, ": ", $days, " days and ", $this->showHours($hours), "\t| ", $this->showHours($diff), "\n";
 		}
 
-		echo "Total difference: ", $this->showHours($total_diff), "\n";
+		$paid_overtime = 32.5;
+
+		echo "-----------------------------\n";
+		echo "  Total number of hours: ", $this->showHours($total_diff), "\n";
+		echo "- Hours that has been compensated (paid): ", $this->showHours($paid_overtime), "\n";
+		echo "= Hours to be compensated: ", $this->showHours($total_diff - $paid_overtime), "\n";
 	}
 
 	protected function showHours($time){
