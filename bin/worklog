@@ -1,4 +1,4 @@
-#!/usr/local/xait/php/bin/php -d display_errors=on
+#!/usr/bin/php -d display_errors=on
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 

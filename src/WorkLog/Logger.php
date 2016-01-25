@@ -124,7 +124,7 @@ class Logger {
 			echo "Work in week ", $week, ": ", $days, " days and ", $this->showHours($hours), "\t| ", $this->showHours($diff), "\n";
 		}
 
-		$paid_overtime = 32.5;
+		$paid_overtime = 0;
 
 		echo "-----------------------------\n";
 		echo "  Total number of hours: ", $this->showHours($total_diff), "\n";
