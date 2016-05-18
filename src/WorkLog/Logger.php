@@ -97,10 +97,23 @@ class Logger {
 
 	}
 
-	public function extended_summary(){
+	public function extended_summary($from = null, $to = null){
 		$weeks = array();
+		$filter = array();
 
-		foreach($this->collection->find()->sort(array('start' => 1)) as $entry){
+		if($to){
+			$to_date = new \DateTime($to);
+			$to_mongo_date = new \MongoDate($to_date->getTimestamp());
+
+			$filter['start']['$lt'] = $to_mongo_date;
+		}
+		if($from){
+			$from_date = new \DateTime($from);
+			$from_mongo_date = new \MongoDate($from_date->getTimestamp());
+			
+			$filter['start']['$gt'] = $from_mongo_date;	
+		}
+		foreach($this->collection->find($filter)->sort(array('start' => 1)) as $entry){
 			if($entry['end'] && !$entry['holiday']){
 				$week = strftime("%W", $entry['end']->sec);
 				$day = strftime("%u", $entry['end']->sec);
