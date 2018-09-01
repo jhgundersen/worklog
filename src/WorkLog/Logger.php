@@ -124,6 +124,7 @@ class Logger {
 		}
 
 		$total_diff = 0;
+		$total_hours = 0;
 		echo "-----------------------------\n",
 		"Total summary:\n";
 
@@ -133,6 +134,7 @@ class Logger {
 			$expected_hours = $days * 7.5 * self::PERCENTAGE_OF_FULL_TIME_POSITION;
 			$hours = round($seconds / 3600, 2);
 			$total_diff += $diff = $hours - $expected_hours;
+			$total_hours += $hours;
 
 			echo "Work in week ", $week, ": ", $days, " days and ", $this->showHours($hours), "\t| ", $this->showHours($diff), "\n";
 		}
@@ -140,7 +142,7 @@ class Logger {
 		$paid_overtime = 0;
 
 		echo "-----------------------------\n";
-		echo "  Total number of hours: ", $this->showHours($total_diff), "\n";
+		echo "  Total number of hours: ", $this->showHours($total_hours), "\n";
 		echo "- Hours that has been compensated (paid): ", $this->showHours($paid_overtime), "\n";
 		echo "= Hours to be compensated: ", $this->showHours($total_diff - $paid_overtime), "\n";
 	}
